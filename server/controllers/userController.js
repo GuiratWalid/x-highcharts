@@ -59,7 +59,8 @@ const userController = {
         try {
             const user = await userModel.findByIdAndDelete(id);
             if (user)
-                fs.unlinkSync(path.join('images', 'users', user.image))
+                if (user.image != "")
+                    fs.unlinkSync(path.join('images', 'users', user.image))
             res.json(user);
             console.log('User deleted successfully !!! ');
         } catch (err) {
