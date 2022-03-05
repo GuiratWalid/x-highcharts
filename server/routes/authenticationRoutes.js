@@ -9,5 +9,9 @@ router.post('/register', upload.single('image'), authenticationController.regist
 
 router.post('/login', authenticationController.login);
 
+router.post('/passwordForgotten', authenticationController.passwordForgotten);
+
+router.put('/changePassword/:id', authenticationController.changePassword);
+
 
 module.exports = router;
