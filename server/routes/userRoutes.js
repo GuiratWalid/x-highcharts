@@ -8,7 +8,9 @@ const upload = require('../configurations/uploadUserImage');
 
 router.get('/user/get/:id', verifyToken, userController.get);
 
-router.put('/user/update/:id', verifyToken, upload.single('image'), userController.update);
+router.put('/user/update/:id', verifyToken, userController.update);
+
+router.put('/user/changeImage/:id', verifyToken, upload.single('image'), userController.changeImage);
 
 router.delete('/user/delete/:id', verifyToken, userController.delete);
 

@@ -1,18 +1,28 @@
 const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require('google-auth-library');
 
 const config = process.env;
 
-const verifyToken = (req, res, next) => {
+// Google Authentication
+const CLIENT_ID = "9165769121-0erlhlvni4s594kkip55a0r5apd3et9d.apps.googleusercontent.com";
+const client = new OAuth2Client(CLIENT_ID);
 
+const verifyToken = (req, res, next) => {
     //const token = req.body.token || req.query.token || req.headers["x-access-token"];
     let token = req.headers.authorization;
+    const { type } = req.body;
     if (!token) {
         return res.status(403).send({ message: "A token is required for authentication" });
     }
     token = token.substring(7);
+    console.log(token);
     try {
-        const decoded = jwt.verify(token, config.ACCESS_TOKEN_SECRET);
-        req.user = decoded;
+        if (type === "googleOAuth")
+            client.verifyIdToken({ idToken: token, audience: CLIENT_ID });
+        else {
+            const decoded = jwt.verify(token, config.ACCESS_TOKEN_SECRET);
+            req.user = decoded;
+        }
     } catch (err) {
         return res.status(401).send({ message: "Invalid Token" });
     }
