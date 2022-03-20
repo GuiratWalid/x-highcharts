@@ -32,6 +32,23 @@ const UserSchema = new mongoose.Schema({
     image: {
         type: String
     },
+    charts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Charts',
+            default: [],
+            required: false
+        }
+    ]
+    ,
+    projects: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Projects',
+            default: [],
+            required: false
+        }
+    ]
 }, {
     timestamps: true,
 });

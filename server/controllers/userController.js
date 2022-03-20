@@ -23,7 +23,6 @@ const userController = {
 
     update: async (req, res) => {
         const id = req.params.id;
-        console.log(req.body);
         try {
             let user = {};
             for (let key of Object.getOwnPropertyNames(req.body)) {
@@ -96,8 +95,8 @@ const userController = {
             if (user)
                 if (user.image != "")
                     fs.unlinkSync(path.join('images', 'users', user.image))
-            res.json(user);
-            console.log('User deleted successfully !!! ');
+            res.json({ message: 'User deleted successfully' });
+            console.log('User deleted successfully');
         } catch (err) {
             res.status(400).json({ message: 'Error: ' + err });
             console.log(err);
