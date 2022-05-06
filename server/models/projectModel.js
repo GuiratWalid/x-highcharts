@@ -17,6 +17,21 @@ const ModelSchema = new mongoose.Schema({
             ref: 'Charts',
             required: false
         }
+    ],
+    shared: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    mode: {
+        type: String,
+        required: false,
+        enum: ['read', 'write']
+    },
+    sharedWith: [
+        {
+            type: String
+        }
     ]
 }, {
     timestamps: true,

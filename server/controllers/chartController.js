@@ -15,6 +15,28 @@ const chartController = {
         }
     },
 
+    getUser: async (req, res) => {
+        const id = req.params.id;
+        try {
+            const charts = await chartModel.find({ owner: id });
+            res.json(charts);
+        } catch (err) {
+            console.log(err);
+            res.json({ message: 'Server Error' });
+        }
+    },
+
+    getProject: async (req, res) => {
+        const id = req.params.id;
+        try {
+            const charts = await chartModel.find({ project: id });
+            res.json(charts);
+        } catch (err) {
+            console.log(err);
+            res.json({ message: 'Server Error' });
+        }
+    },
+
     getAll: async (req, res) => {
         try {
             const charts = await chartModel.find();
@@ -38,11 +60,6 @@ const chartController = {
             }
             let chart = { name, options, owner, project };
             chart = await chartModel.create(chart);
-            if (owner) {
-                const user = await userModel.findById(owner);
-                user.charts.push(chart._id);
-                await user.save();
-            }
             res.json({ message: 'Chart added successfully' });
             console.log('Chart added successfully');
         } catch (err) {
@@ -77,11 +94,6 @@ const chartController = {
         try {
             const id = req.params.id;
             const chart = await chartModel.findByIdAndDelete(id);
-            if (chart.owner) {
-                const user = await userModel.findById(chart.owner);
-                user.charts = user.charts.filter(item => item !== chart._id);
-                await user.save();
-            }
             res.json({ message: 'chart deleted successfully' });
             console.log('chart deleted successfully');
         } catch (err) {

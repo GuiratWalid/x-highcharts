@@ -83,11 +83,11 @@ const authenticationController = {
     },
 
     login: async (req, res) => {
-        const {
+        let {
             email,
             password
         } = req.body;
-
+        email = email.toLowerCase();
         try {
             const userExists = await userModel.findOne({ email });
             if (!(email && password)) {

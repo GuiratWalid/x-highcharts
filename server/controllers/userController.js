@@ -1,4 +1,6 @@
 const userModel = require('../models/userModel');
+const chartModel = require('../models/chartModel');
+const projectModel = require('../models/projectModel');
 
 
 // encrypted password
@@ -92,6 +94,8 @@ const userController = {
         const id = req.params.id;
         try {
             const user = await userModel.findByIdAndDelete(id);
+            await chartModel.deleteMany({ owner: id });
+            await projectModel.deleteMany({ owner: id });
             if (user)
                 if (user.image != "")
                     fs.unlinkSync(path.join('images', 'users', user.image))
